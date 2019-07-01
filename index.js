@@ -2,6 +2,7 @@ const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
+const mongo = require('./db/connect')
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -11,7 +12,22 @@ require('./routes/views')(app)
 require('./routes/api')(app)
 require('./routes/special')(app)
 
-console.log('Iniciando servidor...')
-app.listen(3000, () => {
-    console.log('Servidor iniciado en el puerto 3000\nlocalhost:3000')
-})
+async function initMongo() {
+    const db = await mongo.connect()
+    if (db) { initExpress() }
+}
+
+function initExpress() {
+    console.log('Iniciando Express')
+    app.listen(3000, () => {
+        console.log('Servidor iniciado en el puerto 3000\nlocalhost:3000')
+        process.on('SIGINT', closeApp)
+        process.on('SIGTERM', closeApp)
+    })
+}
+
+function closeApp() {
+    mongo.disconnect().then(() => process.exit(0))
+}
+
+initMongo()
