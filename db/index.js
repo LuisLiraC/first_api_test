@@ -16,5 +16,10 @@ module.exports = {
         const db = mongo.instance().db(DB_NAME)
         const resp = db.collection('films').insertOne(film)
         return resp
+    },
+    deleteFilmById: (id) =>{
+        const db = mongo.instance().db(DB_NAME)
+        const resp = db.collection('films').deleteOne({ id })
+        return resp
     }
 }
