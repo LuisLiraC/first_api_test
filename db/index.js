@@ -24,7 +24,12 @@ module.exports = {
     },
     updateFilm: (id, film) => {
         const db = mongo.instance().db(DB_NAME)
-        const resp = db.collection('films').replaceOne({ 'id': id }, film)
+        const resp = db.collection('films').updateOne({ 'id': id }, {
+            $set: {
+                title: film.title,
+                director: film.director
+            }
+        })
         return resp
     }
 }

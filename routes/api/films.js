@@ -34,7 +34,7 @@ module.exports = (app) => {
 
     app.put(`${API_PATH}/film/:id`, async (req, res) => {
         const id = req.params.id
-        const film = JSON.parse(req.body.film)
+        const film = req.body
         if (id) {
             const resp = await updateFilm(id, film)
             return res.json(resp)
