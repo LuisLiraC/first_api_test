@@ -1,6 +1,6 @@
 const API_PATH = '/api'
 // const films = require('../../resources/films')
-const { getFilms, getFilmById, postFilm, deleteFilmById } = require('../../db')
+const { getFilms, getFilmById, postFilm, deleteFilmById, updateFilm } = require('../../db')
 
 module.exports = (app) => {
     app.get(`${API_PATH}/films`, async (req, res) => {
@@ -30,5 +30,15 @@ module.exports = (app) => {
             return res.json(resp)
         }
         res.status(400).send({ reason: 'No id sent.' })
+    })
+
+    app.put(`${API_PATH}/film/:id`, async (req, res) => {
+        const id = req.params.id
+        const film = JSON.parse(req.body.film)
+        if (id) {
+            const resp = await updateFilm(id, film)
+            return res.json(resp)
+        }
+        res.status(400).send({ reason: 'No updated film sent.' })
     })
 }
