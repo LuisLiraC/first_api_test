@@ -21,9 +21,11 @@ module.exports = {
             isDisconnecting = true
             console.log('Desconectando instancia de Mongo')
             return new Promise ((resolve, reject) => {
-                if (err) { reject(err); isDisconnecting = false; return }
-                console.log('Instancia de Mongo desconectada')
-                resolve()
+                instance.close((err, result) => {
+                    if (err) { reject(err); isDisconnecting = false; return }
+                    console.log('Instancia de Mongo desconectada')
+                    resolve()
+                })
             })
         }
     },
