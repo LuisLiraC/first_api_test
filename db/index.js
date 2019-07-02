@@ -2,6 +2,16 @@ const mongo = require('./connect')
 const { DB_NAME } = require('./config')
 
 module.exports = {
+    getFilms: () => {
+        const db = mongo.instance().db(DB_NAME)
+        const resp = db.collection('films').find().toArray()
+        return resp
+    },
+    getFilmById: (id) => {
+        const db = mongo.instance().db(DB_NAME)
+        const resp = db.collection('films').find({ id }).toArray()
+        return resp
+    },
     postFilm: (film) => {
         const db = mongo.instance().db(DB_NAME)
         const resp = db.collection('films').insertOne(film)

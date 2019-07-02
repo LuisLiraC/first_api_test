@@ -1,15 +1,16 @@
 const API_PATH = '/api'
-const films = require('../../resources/films')
-const { postFilm } = require('../../db')
+// const films = require('../../resources/films')
+const { getFilms, getFilmById, postFilm } = require('../../db')
 
 module.exports = (app) => {
-    app.get(`${API_PATH}/films`, (req, res) => {
+    app.get(`${API_PATH}/films`, async (req, res) => {
+        const films = await getFilms()
         res.json(films)
     })
 
-    app.get(`${API_PATH}/films/:id`, (req, res) => {
+    app.get(`${API_PATH}/films/:id`, async (req, res) => {
         const id = req.params.id
-        const film = films.filter(film => film.id === id)
+        const film = await getFilmById(id)
         res.json(film)
     })
 
