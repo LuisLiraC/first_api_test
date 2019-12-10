@@ -19,8 +19,8 @@ async function initMongo() {
 
 function initExpress() {
     console.log('Iniciando Express')
-    app.listen(3000, () => {
-        console.log('Servidor iniciado en el puerto 3000\nlocalhost:3000')
+    app.listen(3001, () => {
+        console.log('Servidor iniciado en el puerto 3001\nlocalhost:3001')
         process.on('SIGINT', closeApp)
         process.on('SIGTERM', closeApp)
     })
